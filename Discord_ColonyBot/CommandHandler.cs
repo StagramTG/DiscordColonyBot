@@ -44,7 +44,7 @@ namespace Discord_ColonyBot
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
             
-            Console.WriteLine($"[{message.Author.Username}] {message.Content}");
+            Console.WriteLine($"[{message.Author.Discriminator}] {message.Content}");
 
             // Create a number to track where the prefix ends and the command begins
             int argPos = 0;

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Discord_ColonyBot.Colony;
 
 namespace Discord_ColonyBot
 {
@@ -25,6 +26,8 @@ namespace Discord_ColonyBot
 
             m_commandService = new CommandService();
             m_commandHandler = new CommandHandler(m_discordClient, m_commandService);
+
+            ColonyDatabase.Init();
             await m_commandHandler.InstallCommandsAsync();
 
             await Task.Delay(-1);
