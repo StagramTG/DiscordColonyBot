@@ -40,7 +40,18 @@ namespace Discord_ColonyBot.Commands
         [Summary("List all registered users")]
         public Task GetRegisteredUser()
         {
-            return ReplyAsync("");
+            DiscordUser[] users = ColonyDatabase.GetAllUsers();
+            
+            string response = "";
+            response += "```";
+            response += "Colony members :\n";
+            foreach (DiscordUser discordUser in users)
+            {
+                response += "- " + discordUser.UserName + "\n";
+            }
+            response += "```";
+            
+            return ReplyAsync(response);
         }
     }
 }
