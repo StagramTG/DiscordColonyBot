@@ -39,6 +39,11 @@ namespace Discord_ColonyBot.Colony
             return true;
         }
 
+        public static DiscordUser[] GetAllUsers()
+        {
+            return m_database.Table<DiscordUser>().ToArray();
+        }
+
         public static DiscordUser GetUser(string _username, string _discriminator)
         {
             if (!m_database.Table<DiscordUser>().Any())
