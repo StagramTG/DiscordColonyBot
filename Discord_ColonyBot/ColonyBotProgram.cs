@@ -32,10 +32,14 @@ namespace Discord_ColonyBot
             m_commandService = new CommandService();
             m_commandHandler = new CommandHandler(m_discordClient, m_commandService);
 
+            // Database
             ColonyDatabase.Init();
             await m_commandHandler.InstallCommandsAsync();
+            
+            // ColonyManager init
+            await ColonyManager.Instance.Run();
 
-            await Task.Delay(-1);
+            // await Task.Delay(-1);
         }
 
         private Task Log(LogMessage _msg)

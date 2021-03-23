@@ -19,3 +19,5 @@ instance that is attached to a DiscordUser instance at any time when a command i
     + Make a Singleton out of the ColonyManager
     + Make a static class out of the ColonyManager
     + Another idea that not involve a global instance or a global 'utils' class
+  
+For the time being I'm using Colony Manager as a Singleton.

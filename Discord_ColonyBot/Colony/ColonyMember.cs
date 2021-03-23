@@ -12,6 +12,8 @@ namespace Discord_ColonyBot.Colony
         private DiscordUser m_discordUser;
         
         private ActivityTypes m_currentActivity;
+        public ActivityTypes CurrentActivity => m_currentActivity;
+
         private DateTime m_activityStartedAt;
 
         public ColonyMember(DiscordUser _discordUser)
@@ -35,6 +37,17 @@ namespace Discord_ColonyBot.Colony
         public void StartActivity()
         {
             // 
+        }
+
+        public bool IsAttachedTo(DiscordUser _discordUser)
+        {
+            if (m_discordUser.UserName == _discordUser.UserName &&
+                m_discordUser.Discriminator == _discordUser.Discriminator)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

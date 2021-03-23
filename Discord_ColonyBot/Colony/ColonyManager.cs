@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord_ColonyBot.Colony.Data;
 
@@ -10,6 +11,22 @@ namespace Discord_ColonyBot.Colony
      */
     public class ColonyManager
     {
+        /**
+         * Singleton
+         */
+        private static ColonyManager m_instance = null;
+
+        public static ColonyManager Instance
+        {
+            get
+            {
+                if (m_instance == null)
+                    m_instance = new ColonyManager();
+
+                return m_instance;
+            }
+        }
+    
         private bool m_run;
         
         /*
@@ -18,7 +35,7 @@ namespace Discord_ColonyBot.Colony
         private List<ColonyMember> m_members;
         public int MembersCount => m_members.Count;
 
-        public ColonyManager()
+        private ColonyManager()
         {
             m_run = true;
             InitColonyMembers();
@@ -35,17 +52,18 @@ namespace Discord_ColonyBot.Colony
             }
         }
         
-        public Task Run()
+        public async Task Run()
         {
             while (m_run)
             {
+                Console.WriteLine(DateTime.Now + " Update started");
                 // Evaluate all users Activities
                 EvaluateUsersActivities();
                 
-                Task.Delay(5 * 60 * 1000);
+                await Task.Delay(1 * 60 * 1000);
             }
             
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
         private void EvaluateUsersActivities()
@@ -54,6 +72,17 @@ namespace Discord_ColonyBot.Colony
             {
                 member.UpdateActivity();
             }
+        }
+
+        public ColonyMember GetColonyMember(DiscordUser _discordUser)
+        {
+            foreach (ColonyMember colonyMember in m_members)
+            {
+                if (colonyMember.IsAttachedTo(_discordUser))
+                    return colonyMember;
+            }
+
+            return null;
         }
     }
 }
