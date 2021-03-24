@@ -37,6 +37,7 @@ namespace Discord_ColonyBot
             await m_commandHandler.InstallCommandsAsync();
             
             // ColonyManager init
+            ColonyManager.Instance.GlobalInit(m_discordClient);
             await ColonyManager.Instance.Run();
 
             // await Task.Delay(-1);

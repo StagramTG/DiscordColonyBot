@@ -31,12 +31,12 @@ namespace Discord_ColonyBot.Colony
 
         public void EndCurrentActivity()
         {
-            // 
+            m_currentActivity = ActivityTypes.IDLE;
         }
 
-        public void StartActivity()
+        public void StartActivity(ActivityTypes _activity)
         {
-            // 
+            m_currentActivity = _activity;
         }
 
         public bool IsAttachedTo(DiscordUser _discordUser)

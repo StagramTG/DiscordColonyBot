@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Discord.WebSocket;
 using Discord_ColonyBot.Colony.Data;
 
 namespace Discord_ColonyBot.Colony
@@ -34,6 +35,23 @@ namespace Discord_ColonyBot.Colony
          */
         private List<ColonyMember> m_members;
         public int MembersCount => m_members.Count;
+        
+        /*
+         * Activity dictionnary
+         */
+        public static readonly Dictionary<string, ActivityTypes> ActivitiesDict =
+            new Dictionary<string, ActivityTypes>()
+            {
+                {"IDLE", ActivityTypes.IDLE},
+                {"GATHER_WOOD", ActivityTypes.GATHER_WOOD},
+                {"GATHER_STONE", ActivityTypes.GATHER_STONE},
+                {"EXPLORE", ActivityTypes.EXPLORE},
+            };
+        
+        /*
+         * Discord Socket Client reference
+         */
+        private DiscordSocketClient m_discord;
 
         private ColonyManager()
         {
@@ -50,6 +68,11 @@ namespace Discord_ColonyBot.Colony
                 ColonyMember tmp = new ColonyMember(discordUser);
                 m_members.Add(tmp);
             }
+        }
+
+        public void GlobalInit(DiscordSocketClient _discord)
+        {
+            m_discord = _discord;
         }
         
         public async Task Run()

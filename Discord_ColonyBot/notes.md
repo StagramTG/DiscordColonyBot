@@ -21,3 +21,9 @@ instance that is attached to a DiscordUser instance at any time when a command i
     + Another idea that not involve a global instance or a global 'utils' class
   
 For the time being I'm using Colony Manager as a Singleton.
+
+## Activities management for users
+Make commands for users to :
++ Change the current activity :
+    + If no arguments given, help for this command will be replied
+    + Will take the new activity in argument
