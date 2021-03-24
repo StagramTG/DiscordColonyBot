@@ -35,6 +35,7 @@ namespace Discord_ColonyBot.Colony
              * If it's not the case, create them.
              */
             m_database.CreateTable<DiscordUser>();
+            m_database.CreateTable<ResourcesInventory>();
 
             return true;
         }
