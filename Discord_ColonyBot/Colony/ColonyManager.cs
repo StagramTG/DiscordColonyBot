@@ -61,6 +61,7 @@ namespace Discord_ColonyBot.Colony
 
         private void InitColonyMembers()
         {
+            // Init colony members
             m_members = new List<ColonyMember>();
             DiscordUser[] discordUsers = ColonyDatabase.GetAllUsers();
             foreach (DiscordUser discordUser in discordUsers)

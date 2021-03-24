@@ -39,6 +39,12 @@ namespace Discord_ColonyBot.Colony
 
             return true;
         }
+        
+        /*
+         * ==============================================
+         *                      USERS
+         * ==============================================
+         */
 
         public static DiscordUser[] GetAllUsers()
         {
@@ -63,6 +69,29 @@ namespace Discord_ColonyBot.Colony
         {
             int addedCount = m_database.Insert(_user);
             return addedCount > 0;
+        }
+        
+        /*
+         * ==============================================
+         *                   RESOURCES
+         * ==============================================
+         */
+
+        public static ResourcesInventory GetResourcesInventory()
+        {
+            ResourcesInventory inventory = m_database.Table<ResourcesInventory>().First();
+            if (inventory == null)
+            {
+                inventory = new ResourcesInventory()
+                {
+                    WoodQuantity = 0,
+                    StoneQuantity = 0
+                };
+
+                m_database.Insert(inventory);
+            }
+
+            return inventory;
         }
     }
 }
