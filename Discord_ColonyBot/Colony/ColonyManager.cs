@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord.WebSocket;
+using Discord_ColonyBot.Colony.Activities;
 using Discord_ColonyBot.Colony.Data;
 
 namespace Discord_ColonyBot.Colony
@@ -39,13 +40,13 @@ namespace Discord_ColonyBot.Colony
         /*
          * Activity dictionnary
          */
-        public static readonly Dictionary<string, ActivityTypes> ActivitiesDict =
-            new Dictionary<string, ActivityTypes>()
+        public static readonly Dictionary<string, AbstractActivity> ActivitiesDict =
+            new Dictionary<string, AbstractActivity>()
             {
-                {"IDLE", ActivityTypes.IDLE},
-                {"GATHER_WOOD", ActivityTypes.GATHER_WOOD},
-                {"GATHER_STONE", ActivityTypes.GATHER_STONE},
-                {"EXPLORE", ActivityTypes.EXPLORE},
+                {"IDLE", new IdleActivity()},
+                {"GATHER_WOOD", new GatherWoodActivity()},
+                {"GATHER_STONE", new GatherStoneActivity()},
+                {"EXPLORE", new ExploreActivity()},
             };
         
         /*

@@ -39,8 +39,8 @@ namespace Discord_ColonyBot.Commands
 
             if (ColonyManager.ActivitiesDict.TryGetValue(_activity, out var selectedActivity))
             {
-                member.StartActivity(selectedActivity);
-                return ReplyAsync(currentUser.UserName + " your current activity is now " + selectedActivity);
+                member.StartActivity(selectedActivity.ActivityType);
+                return ReplyAsync(currentUser.UserName + " your current activity is now " + selectedActivity.ActivityType);
             }
 
             return ReplyAsync(currentUser.UserName + " given activity doesn't exist");
