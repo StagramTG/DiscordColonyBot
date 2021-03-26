@@ -76,23 +76,23 @@ namespace Discord_ColonyBot.Colony
         public void GlobalInit(DiscordSocketClient _discord)
         {
             m_discord = _discord;
+            Resources.Init();
         }
         
         public async Task Run()
         {
             while (m_run)
             {
+                await Task.Delay(1 * 20 * 1000);
                 Console.WriteLine(DateTime.Now + " Update started");
                 // Evaluate all users Activities
                 EvaluateUsersActivities();
 
                 if (m_discord != null)
                 {
-                    (m_discord.GetChannel(823239084418924595) as IMessageChannel)?.SendMessageAsync(
-                        "[INFO] Process User production");
+                    (m_discord.GetChannel(823239084418924595) as ISocketMessageChannel)?.SendMessageAsync(
+                        $"```[INFO] Process User production \nWood:  {Resources.WoodQuantity} \nStone: {Resources.StoneQuantity}```");
                 }
-                
-                await Task.Delay(1 * 60 * 1000);
             }
             
             await Task.CompletedTask;
@@ -102,8 +102,20 @@ namespace Discord_ColonyBot.Colony
         {
             foreach (ColonyMember member in m_members)
             {
-                member.UpdateActivity();
+                Resources.Production tmp = member.UpdateActivity();
+                switch (tmp.m_type)
+                {
+                    case ActivityTypes.GATHER_WOOD:
+                        Resources.AddWood(tmp.amount);
+                        break;
+                    
+                    case ActivityTypes.GATHER_STONE:
+                        Resources.AddStone(tmp.amount);
+                        break;
+                }
             }
+            
+            Resources.SaveToDatabase();
         }
 
         public ColonyMember GetColonyMember(DiscordUser _discordUser)

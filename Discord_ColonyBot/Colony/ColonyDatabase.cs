@@ -79,6 +79,13 @@ namespace Discord_ColonyBot.Colony
 
         public static ResourcesInventory GetResourcesInventory()
         {
+            TableQuery<ResourcesInventory> resourcesInventories = m_database.Table<ResourcesInventory>();
+            if (!resourcesInventories.Any())
+            {
+                Console.WriteLine("Create the ResourcesInventory Table in DB");
+                return InitializeResourcesInventoryEntry();
+            }
+            
             ResourcesInventory inventory = m_database.Table<ResourcesInventory>().First();
             if (inventory == null)
             {
@@ -92,6 +99,30 @@ namespace Discord_ColonyBot.Colony
             }
 
             return inventory;
+        }
+
+        private static ResourcesInventory InitializeResourcesInventoryEntry()
+        {
+            ResourcesInventory resourcesInventory = new ResourcesInventory()
+            {
+                WoodQuantity = 0,
+                StoneQuantity = 0
+            };
+
+            m_database.Insert(resourcesInventory);
+            return resourcesInventory;
+        }
+
+        public static void UpdateResourcesInventory(ResourcesInventory _inventory)
+        {
+            ResourcesInventory inventory = m_database.Table<ResourcesInventory>().First();
+            if (inventory == null)
+                return;
+
+            inventory.WoodQuantity = _inventory.WoodQuantity;
+            inventory.StoneQuantity = _inventory.StoneQuantity;
+
+            m_database.Update(inventory);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Discord_ColonyBot
     public class ColonyBotProgram
     {
         private DiscordSocketClient m_discordClient;
-        // The bot access token to connect to discord, fetch from discord app panel
+        // The bot access token to connect to discord, manually fetch from discord app panel
         private string m_tokenFilePath;
         private string m_apiToken;
 

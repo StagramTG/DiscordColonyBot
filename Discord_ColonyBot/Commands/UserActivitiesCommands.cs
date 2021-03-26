@@ -28,7 +28,7 @@ namespace Discord_ColonyBot.Commands
             if (member == null)
                 return ReplyAsync("User not found in colony members");
 
-            return ReplyAsync(member.UserName + " you are " + member.CurrentActivity);
+            return ReplyAsync(member.UserName + " you are " + member.CurrentActivity.ActivityType);
         }
 
         [Command("act-change")]
