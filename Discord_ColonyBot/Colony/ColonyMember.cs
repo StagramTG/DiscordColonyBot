@@ -1,4 +1,5 @@
 ﻿using System;
+using Discord_ColonyBot.Colony.Activities;
 using Discord_ColonyBot.Colony.Data;
 
 namespace Discord_ColonyBot.Colony
@@ -10,9 +11,11 @@ namespace Discord_ColonyBot.Colony
     public class ColonyMember
     {
         private DiscordUser m_discordUser;
+        public string UserName => m_discordUser.UserName;
+        public string Discriminator => m_discordUser.Discriminator;
         
-        private ActivityTypes m_currentActivity;
-        public ActivityTypes CurrentActivity => m_currentActivity;
+        private AbstractActivity m_currentActivity;
+        public AbstractActivity CurrentActivity => m_currentActivity;
 
         private DateTime m_activityStartedAt;
 
@@ -20,23 +23,23 @@ namespace Discord_ColonyBot.Colony
         {
             m_discordUser = _discordUser;
             
-            m_currentActivity = ActivityTypes.IDLE;
+            m_currentActivity = ColonyManager.ActivitiesDict["IDLE"];
             m_activityStartedAt = DateTime.Now;
         }
 
-        public void UpdateActivity()
+        public Resources.Production UpdateActivity()
         {
-            // 
+            return m_currentActivity.Process();
         }
 
         public void EndCurrentActivity()
         {
-            m_currentActivity = ActivityTypes.IDLE;
+            m_currentActivity =ColonyManager.ActivitiesDict["IDLE"];
         }
 
-        public void StartActivity(ActivityTypes _activity)
+        public void StartActivity(string _activity)
         {
-            m_currentActivity = _activity;
+            m_currentActivity = ColonyManager.ActivitiesDict[_activity];;
         }
 
         public bool IsAttachedTo(DiscordUser _discordUser)

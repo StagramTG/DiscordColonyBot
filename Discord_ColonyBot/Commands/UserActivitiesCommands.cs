@@ -7,43 +7,61 @@ namespace Discord_ColonyBot.Commands
 {
     public class UserActivitiesCommands: ModuleBase<SocketCommandContext>
     {
+        /*
+         * Helper to get the Colony member from the Command context.
+         */
+        private ColonyMember GetMemberFromContext(SocketCommandContext _context)
+        {
+            DiscordUser currentUser = ColonyDatabase.GetUser(_context.User.Username, _context.User.Discriminator);
+            if (currentUser == null)
+                return null;
+            
+            ColonyMember member = ColonyManager.Instance.GetColonyMember(currentUser);
+            return member;
+        }
+        
         [Command("act-current")]
         [Summary("Display your current activity in the colony")]
         public Task UserCurrentActivity()
         {
-            DiscordUser currentUser = ColonyDatabase.GetUser(Context.User.Username, Context.User.Discriminator);
-            if (currentUser == null)
-                return ReplyAsync(Context.User.Username + " you are not a member of the colony");
-            
-            // Get the ColonyMember instance attached to this DiscordUser entry
-            ColonyMember member = ColonyManager.Instance.GetColonyMember(currentUser);
+            ColonyMember member = GetMemberFromContext(Context);
             if (member == null)
-            {
                 return ReplyAsync("User not found in colony members");
-            }
 
-            return ReplyAsync(currentUser.UserName + " you are " + member.CurrentActivity);
+            return ReplyAsync(member.UserName + " you are " + member.CurrentActivity);
         }
 
         [Command("act-change")]
         [Summary("Change the current activity of the user")]
         public Task ChangeUserCurrentActivity(string _activity)
         {
-            DiscordUser currentUser = ColonyDatabase.GetUser(Context.User.Username, Context.User.Discriminator);
-            if (currentUser == null)
-                return ReplyAsync(Context.User.Username + " you are not a member of the colony");
-            
-            ColonyMember member = ColonyManager.Instance.GetColonyMember(currentUser);
+            ColonyMember member = GetMemberFromContext(Context);
             if (member == null)
                 return ReplyAsync("User not found in colony members");
 
             if (ColonyManager.ActivitiesDict.TryGetValue(_activity, out var selectedActivity))
             {
-                member.StartActivity(selectedActivity.ActivityType);
-                return ReplyAsync(currentUser.UserName + " your current activity is now " + selectedActivity.ActivityType);
+                member.StartActivity(selectedActivity.ActivityType.ToString());
+                return ReplyAsync(member.UserName + " your current activity is now " + selectedActivity.ActivityType);
             }
 
-            return ReplyAsync(currentUser.UserName + " given activity doesn't exist");
+            return ReplyAsync(member.UserName + " given activity doesn't exist");
+        }
+
+        [Command("act-stop")]
+        [Summary("Stop the user's current activity")]
+        public Task StopUserCurrentActivity()
+        {
+            ColonyMember member = GetMemberFromContext(Context);
+            if (member == null)
+                return ReplyAsync("User not found in colony members");
+
+            if (member.CurrentActivity.ActivityType == ActivityTypes.IDLE)
+                return ReplyAsync(member.UserName + " your are already IDLE");
+            
+            member.StartActivity(ActivityTypes.IDLE.ToString());
+            
+            return ReplyAsync(member.UserName + " your are now IDLE");
         }
     }
 }

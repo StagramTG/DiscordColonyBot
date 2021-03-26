@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using Discord_ColonyBot.Colony.Activities;
 using Discord_ColonyBot.Colony.Data;
@@ -84,6 +85,12 @@ namespace Discord_ColonyBot.Colony
                 Console.WriteLine(DateTime.Now + " Update started");
                 // Evaluate all users Activities
                 EvaluateUsersActivities();
+
+                if (m_discord != null)
+                {
+                    (m_discord.GetChannel(823239084418924595) as IMessageChannel)?.SendMessageAsync(
+                        "[INFO] Process User production");
+                }
                 
                 await Task.Delay(1 * 60 * 1000);
             }

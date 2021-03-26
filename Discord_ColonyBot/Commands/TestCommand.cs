@@ -9,7 +9,7 @@ namespace Discord_ColonyBot.Commands
         [Summary("Say hello !")]
         public Task SayHello()
         {
-            return ReplyAsync("Hello here !");
+            return ReplyAsync("Hello here ! ");
         }
     }
 }
